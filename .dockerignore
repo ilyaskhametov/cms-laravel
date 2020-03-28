@@ -18,6 +18,8 @@ src/bootstrap/cache
 src/storage/framework
 src/storage/logs
 src/vendor
+src/**/*.sqlite
+src/**/*.sqlite-journal
 
 # Node
 src/logs
