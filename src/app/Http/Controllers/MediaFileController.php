@@ -6,21 +6,24 @@ use App\Http\Requests\MediaFile\IndexRequest;
 use App\Http\Requests\MediaFile\StoreRequest;
 use App\Http\Requests\MediaFile\UpdateRequest;
 use App\Modules\MediaFile\Entities\MediaFile;
-use App\Modules\MediaFile\Repositories\MediaFileRepository;
+use App\Modules\MediaFile\Services\MediaFileService;
+use Exception;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\MessageBag;
 
 class MediaFileController extends Controller
 {
-    private MediaFileRepository $repository;
+    private MediaFileService $service;
 
-    public function __construct(MediaFileRepository $repository)
+    public function __construct(MediaFileService $service)
     {
-        $this->repository = $repository;
+        $this->service = $service;
     }
 
     public function index(IndexRequest $request)
     {
         return view('media_file.index', [
-            'mediaFiles' => $this->repository->index($request->validated()),
+            'mediaFiles' => $this->service->list($request->validated()),
         ]);
     }
 
@@ -31,7 +34,16 @@ class MediaFileController extends Controller
 
     public function store(StoreRequest $request)
     {
-        //
+        try {
+            $mediaFile = $this->service->store($request->file('file'));
+            request()->session()->flash('success', 'Media file was successfully stored!');
+            return redirect()->route('media_files.show', ['mediaFile' => $mediaFile->id]);
+        } catch (Exception $e) {
+            Log::error('Error: ' . $e->getMessage(), [$e->getTraceAsString()]);
+            $errors = new MessageBag();
+            $errors->add('Error', $e->getMessage());
+            return redirect()->back()->withErrors($errors)->withInput();
+        }
     }
 
     public function show(MediaFile $mediaFile)
@@ -46,11 +58,29 @@ class MediaFileController extends Controller
 
     public function update(UpdateRequest $request, MediaFile $mediaFile)
     {
-        //
+        try {
+            $mediaFile = $this->service->update($mediaFile, $request->input('name'));
+            request()->session()->flash('success', 'Media file was successfully updated!');
+            return redirect()->route('media_files.show', ['mediaFile' => $mediaFile->id]);
+        } catch (Exception $e) {
+            Log::error('Error: ' . $e->getMessage(), [$e->getTraceAsString()]);
+            $errors = new MessageBag();
+            $errors->add('Error', $e->getMessage());
+            return redirect()->back()->withErrors($errors)->withInput();
+        }
     }
 
     public function destroy(MediaFile $mediaFile)
     {
-        //
+        try {
+            $this->service->delete($mediaFile);
+            request()->session()->flash('success', 'Media file was successfully deleted!');
+            return redirect()->route('media_files.index');
+        } catch (Exception $e) {
+            Log::error('Error: ' . $e->getMessage(), [$e->getTraceAsString()]);
+            $errors = new MessageBag();
+            $errors->add('Error', $e->getMessage());
+            return redirect()->back()->withErrors($errors)->withInput();
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\MediaFile;
 
+use App\Modules\MediaFile\Entities\MediaFile;
 use Illuminate\Foundation\Http\FormRequest;
 
 class IndexRequest extends FormRequest
@@ -11,9 +12,9 @@ class IndexRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +22,16 @@ class IndexRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            //
+            'name' => 'filled|string|max:255',
+            'type' => 'filled|in:' . implode(',', [
+                MediaFile::TYPE_AUDIO,
+                MediaFile::TYPE_IMAGE,
+                MediaFile::TYPE_VIDEO,
+                MediaFile::TYPE_OTHER,
+            ]),
         ];
     }
 }

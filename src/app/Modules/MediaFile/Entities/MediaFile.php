@@ -19,6 +19,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class MediaFile extends Model
 {
+    const TYPE_AUDIO = 'AUDIO';
+    const TYPE_IMAGE = 'IMAGE';
+    const TYPE_VIDEO = 'VIDEO';
+    const TYPE_OTHER = 'OTHER';
+
     protected $fillable = [
         'uri',
         'name',
