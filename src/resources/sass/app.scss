@@ -1,1 +1,22 @@
-//
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap&subset=cyrillic');
+@import '~bootstrap/scss/bootstrap';
+@import 'partials/variables';
+@import 'partials/layout/header';
+@import 'partials/layout/footer';
+
+html {
+    font-size: $html-font-size;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    font-family: $font;
+    font-size: $base-font-size;
+}
+
+.main {
+    flex: 1;
+}
+

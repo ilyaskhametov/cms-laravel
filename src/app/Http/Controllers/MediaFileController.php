@@ -36,7 +36,7 @@ class MediaFileController extends Controller
     {
         try {
             $mediaFile = $this->service->store($request->file('file'));
-            request()->session()->flash('success', 'Media file was successfully stored!');
+            request()->session()->flash('success', 'Media file was successfully created!');
             return redirect()->route('media_files.show', ['mediaFile' => $mediaFile->id]);
         } catch (Exception $e) {
             Log::error('Error: ' . $e->getMessage(), [$e->getTraceAsString()]);
