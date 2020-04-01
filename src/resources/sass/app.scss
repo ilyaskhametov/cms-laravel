@@ -1,22 +1,20 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap&subset=cyrillic');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap&subset=cyrillic');
 @import '~bootstrap/scss/bootstrap';
 @import 'partials/variables';
 @import 'partials/layout/header';
 @import 'partials/layout/footer';
 
-html {
-    font-size: $html-font-size;
-}
-
 body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-    font-family: $font;
+    font-family: $font-family;
     font-size: $base-font-size;
+    background-color: $body-bg;
 }
 
 .main {
     flex: 1;
+    padding: 30px 0;
 }
 

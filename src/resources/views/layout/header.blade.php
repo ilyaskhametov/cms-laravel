@@ -2,7 +2,9 @@
     <div class="container">
         <div class="row">
             <div class="col-12 d-flex align-items-center justify-content-between">
-                <img src="{{ asset('images/logo.svg') }}" alt="logo">
+                <a href="{{ url('/') }}">
+                    <img src="{{ asset('images/logo.svg') }}" alt="logo">
+                </a>
                 <ul class="nav">
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('pages.index') ? 'active' : null }}"
