@@ -38,7 +38,7 @@ services:
             # For Linux
             # - ./storage/postgres:/var/lib/postgresql/data
             # For Windows
-            - /var/lib/postgresql/data
+            - postgres:/var/lib/postgresql/data
         ports:
             - ${POSTGRES_PORT_MAP}
         environment:
@@ -46,3 +46,6 @@ services:
             - POSTGRES_USER=${POSTGRES_USER}
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
         restart: always
+volumes:
+    postgres:
+        external: true
